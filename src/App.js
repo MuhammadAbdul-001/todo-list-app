@@ -1,23 +1,57 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
 
 function App() {
+  const [arrayLenght, setArrayLenght] = useState([]);
+  const [inputValue, setInputValue] = useState("");
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+    <div className="app">
+      <h1>To Do App</h1>
+      <div className="todo">
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          {arrayLenght.length} of {arrayLenght.length} remaining
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+        <button className="delete-btn" onClick={() => setArrayLenght([])}>
+          DEL
+        </button>
+      </div>
+      <div class="enter-todo">
+        <input
+          type="text"
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+        />
+        <button
+          className="add-btn"
+          onClick={() => setArrayLenght([...arrayLenght, inputValue])}
         >
-          Learn React
-        </a>
-      </header>
+          ADD
+        </button>
+      </div>
+      {arrayLenght.length > 0 &&
+        arrayLenght.map(function (data, i) {
+          return (
+            <div className="todo-display" key={Math.random()}>
+              <div className="my-to-do">
+                <input type="checkbox" id="coo" />
+                <label for="coo" className="button">
+                  {data}
+                </label>
+                <button
+                  className="sub-btn"
+                  onClick={() => {
+                    const updatedTask = arrayLenght.filter((_, index) => {
+                      return index !== i;
+                    });
+                    setArrayLenght(updatedTask);
+                  }}
+                >
+                  DEL
+                </button>
+              </div>
+            </div>
+          );
+        })}
     </div>
   );
 }
